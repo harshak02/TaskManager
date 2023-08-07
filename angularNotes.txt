@@ -1,0 +1,30 @@
+ngIf cases ->
+
+we can use single if like => 
+<div *ngIf="i!=0">
+  your template goes here
+</div>
+
+else another method is :
+
+use firstTemplate and secondTemplate methods
+
+
+pipes built in
+
+1) {{property | slice : 0 : 10}}
+2) {{property | currency : "USD" }}
+3) {{property | percent}}
+4) {{property}} --> gives the object data types
+5) {{property | json}} -->gives json format of data (used in debugging)
+6)
+
+
+ng switch :
+
+<tag [ngSwitch]="property">
+<tag *ngSwitchCase=" 'value1" > Content here </tag>
+<tag *ngSwitchCase=" 'value2" "> Content here </tag>
+<tag *ngSwitchCase=" 'value3' "> Content here </tag>
+<tag *ngSwitchDefault> Content here </tag>
+</tag>

@@ -11,7 +11,11 @@
 <!-- pb means padding bottom -->
 <!-- mx means margin in x direction -->
 <!-- class="row" means display flex in row direction and col-x means x cells in coloums -->
-<h5>DashBoard</h5>
+<!-- mx-1 means margin in x axis and mx-auto means center a div-->
+<div class="mx-1 pb-0.5 d-flex justify-content-between">
+  <h5>DashBoard</h5>
+  <p style="font-weight: bold">{{ Today | date : "fullDate" }}</p>
+</div>
 <div class="row mx-1" style="background-color: #e9e6e6">
   <div class="col-lg-3 pb-3" style="background-color: #e9e6e6">
     <div class="row">
@@ -22,7 +26,7 @@
           font-family: 'Arial Narrow Bold', sans-serif;
         "
       >
-        {{ Designation }}
+        {{ Designation | uppercase }}
       </div>
       <div class="col-12 text-center mt-2">
         <img src="assets/user.png" alt="Err!!" width="120px" />
@@ -31,7 +35,7 @@
         class="col-12 text-center pt-2 pb-2 font-weight-bold"
         style="font-family: Tahoma, Geneva, Verdana, sans-serif"
       >
-        {{ Username }}
+        {{ Username | lowercase }}
       </div>
       <div class="col-12 text-center pt-2 pb-2" style="font-family: Arial">
         TEAM SUMMARY
@@ -86,9 +90,9 @@
     </div>
     <div class="col-12">
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">ABC Infotech Ltd.</li>
-        <li class="list-group-item">GHI Industries</li>
-        <li class="list-group-item">DEF Software Solutions</li>
+        <li class="list-group-item" *ngFor="let client of Clients">
+          {{ client }}
+        </li>
       </ul>
     </div>
   </div>
@@ -104,13 +108,18 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Project A
+                {{ CurrentProjectSelected }}
               </button>
               <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item active" href="#">Project A</a></li>
-                <li><a class="dropdown-item" href="#">Project B</a></li>
-                <li><a class="dropdown-item" href="#">Project C</a></li>
-                <li><a class="dropdown-item" href="#">Project D</a></li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="let project of Projects"
+                    onclick="return false"
+                    (click)="onProjectChange($event)"
+                    >{{ project }}</a
+                  >
+                </li>
               </ul>
             </div>
           </div>
@@ -125,10 +134,24 @@
                 2019
               </button>
               <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item active" href="#">2019</a></li>
-                <li><a class="dropdown-item" href="#">2018</a></li>
-                <li><a class="dropdown-item" href="#">2017</a></li>
-                <li><a class="dropdown-item" href="#">2016</a></li>
+                <li>
+                  <a class="dropdown-item" *ngFor="let year of Years">
+                    <span [ngSwitch]="year">
+                      <span *ngSwitchCase="'2019'" style="color: green">{{
+                        year
+                      }}</span>
+                      <span *ngSwitchCase="'2018'" style="color: red">{{
+                        year
+                      }}</span>
+                      <span *ngSwitchCase="'2017'" style="color: skyblue">{{
+                        year
+                      }}</span>
+                      <span *ngSwitchDefault style="color: white">{{
+                        year
+                      }}</span>
+                    </span>
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -167,25 +190,10 @@
                 <th>Team Members Count</th>
                 <th>Temporarily Unavilable Members</th>
               </tr>
-              <tr>
-                <td>East</td>
-                <td>10</td>
-                <td>2</td>
-              </tr>
-              <tr>
-                <td>West</td>
-                <td>15</td>
-                <td>3</td>
-              </tr>
-              <tr>
-                <td>North</td>
-                <td>20</td>
-                <td>5</td>
-              </tr>
-              <tr>
-                <td>South</td>
-                <td>17</td>
-                <td>4</td>
+              <tr *ngFor="let team of TeamMembersSummary">
+                <td>{{ team.Region }}</td>
+                <td>{{ team.TeamMembersCount }}</td>
+                <td>{{ team.TemporarilyUnavailableMembers }}</td>
               </tr>
             </table>
           </div>
@@ -203,94 +211,35 @@
       </div>
       <div class="col-lg-12 pt-2 text-center">
         <div class="accordion accordion-flush" id="accordionFlushExample">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne">
+          <div
+            class="accordion-item"
+            *ngFor="let TeamMembersGroup of TeamMembers; let i = index"
+          >
+            <h2 class="accordion-header" [attr.id]="'flush-heading' + i">
               <div class="card">
-                <div class="card-header bg-secondary" id="card1">
+                <div class="card-header bg-secondary" [attr.id]="'card' + i">
                   <h2 class="mb-0 bg-secondary">
                     <button
                       class="accordion-button collapsed in bg-secondary"
                       type="button"
                       data-bs-toggle="collapse"
-                      data-bs-target="#flush-collapseOne"
+                      [attr.data-bs-target]="'#flush-collapse' + i"
                       aria-expanded="false"
-                      aria-controls="flush-collapseOne"
-                      style="color:white"
+                      [attr.aria-controls]="'flush-collapse' + i"
+                      style="color: white"
                     >
-                      East
+                      {{ TeamMembersGroup.Region }}
                     </button>
                   </h2>
                 </div>
               </div>
             </h2>
             <div
-              id="flush-collapseOne"
-              class="accordion-collapse collapse show"
-              aria-labelledby="flush-headingOne"
-              data-bs-parent="#accordionFlushExample"
-            >
-              <div class="accordion-body">
-                <div class="card-body">
-                  <table class="table text-center">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Ford</td>
-                        <td><i class="fa fa-phone"></i> Available</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Miller</td>
-                        <td><i class="fa fa-phone"></i> Available</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Maxwell</td>
-                        <td><i class="fa fa-user-times"></i> Busy</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Warner</td>
-                        <td><i class="fa fa-user-times"></i> Busy</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingTwo">
-              <div class="card">
-                <div class="card-header bg-secondary" id="card2">
-                  <h2 class="mb-0">
-                    <button
-                      class="accordion-button collapsed bg-secondary"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#flush-collapseTwo"
-                      aria-expanded="false"
-                      aria-controls="flush-collapseTwo"
-                      style="color:white"
-                    >
-                      North
-                    </button>
-                  </h2>
-                </div>
-              </div>
-            </h2>
-            <div
-              id="flush-collapseTwo"
+              [attr.id]="'flush-collapse' + i"
               class="accordion-collapse collapse"
-              aria-labelledby="flush-headingTwo"
+              [attr.aria-labelledby]="'flush-heading' + i"
               data-bs-parent="#accordionFlushExample"
+              [ngClass]="i == 0 ? 'show' : ''"
             >
               <div class="accordion-body">
                 <div class="card-body">
@@ -303,151 +252,31 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Ford</td>
-                        <td><i class="fa fa-phone"></i> Available</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Miller</td>
-                        <td><i class="fa fa-phone"></i> Available</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Maxwell</td>
-                        <td><i class="fa fa-user-times"></i> Busy</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Warner</td>
-                        <td><i class="fa fa-user-times"></i> Busy</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingThree">
-              <div class="card">
-                <div class="card-header bg-secondary" id="card3">
-                  <h2 class="mb-0">
-                    <button
-                      class="accordion-button collapsed bg-secondary"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#flush-collapseThree"
-                      aria-expanded="false"
-                      aria-controls="flush-collapseThree"
-                      style="color:white"
-                    >
-                      West
-                    </button>
-                  </h2>
-                </div>
-              </div>
-            </h2>
-            <div
-              id="flush-collapseThree"
-              class="accordion-collapse collapse"
-              aria-labelledby="flush-headingThree"
-              data-bs-parent="#accordionFlushExample"
-            >
-              <div class="accordion-body">
-                <div class="card-body">
-                  <table class="table text-center">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Ford</td>
-                        <td><i class="fa fa-phone"></i> Available</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Miller</td>
-                        <td><i class="fa fa-phone"></i> Available</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Maxwell</td>
-                        <td><i class="fa fa-user-times"></i> Busy</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Warner</td>
-                        <td><i class="fa fa-user-times"></i> Busy</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingFour">
-              <div class="card">
-                <div class="card-header bg-secondary" id="card4">
-                  <h2 class="mb-0">
-                    <button
-                      class="accordion-button collapsed bg-secondary"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#flush-collapseFour"
-                      aria-expanded="false"
-                      aria-controls="flush-collapseFour"
-                      style="color:white"
-                    >
-                      South
-                    </button>
-                  </h2>
-                </div>
-              </div>
-            </h2>
-            <div
-              id="flush-collapseFour"
-              class="accordion-collapse collapse"
-              aria-labelledby="flush-headingFour"
-              data-bs-parent="#accordionFlushExample"
-            >
-              <div class="accordion-body">
-                <div class="card-body">
-                  <table class="table text-center">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Ford</td>
-                        <td><i class="fa fa-phone"></i> Available</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Miller</td>
-                        <td><i class="fa fa-phone"></i> Available</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Maxwell</td>
-                        <td><i class="fa fa-user-times"></i> Busy</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Warner</td>
-                        <td><i class="fa fa-user-times"></i> Busy</td>
+                      <tr *ngFor="let teamMembers of TeamMembersGroup.Members">
+                        <td>{{ teamMembers.ID }}</td>
+                        <td
+                          [style.color]="
+                            teamMembers.Status == 'Busy' ? 'red' : 'black'
+                          "
+                        >
+                          {{ teamMembers.Name }}
+                        </td>
+                        <td>
+                          <div
+                            *ngIf="
+                              teamMembers.Status == 'Available';
+                              then firstTemplate;
+                              else secondTemplate
+                            "
+                          ></div>
+                          <ng-template #firstTemplate>
+                            <i class="fa fa-phone"></i> {{ teamMembers.Status }}
+                          </ng-template>
+                          <ng-template #secondTemplate>
+                            <i class="fa fa-bed"></i>
+                            {{ teamMembers.Status }}
+                          </ng-template>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
