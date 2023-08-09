@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+declare var $: any; 
 
 @Component({
   selector: 'app-about',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent {
+  openModal() {
+    $('#exampleModalCenter').modal('show'); // Use jQuery to show the modal
+  }
 
+  closeFun() : any {
+    $('#exampleModalCenter').modal('hide'); // Use jQuery to show the modal
+
+  }
 }

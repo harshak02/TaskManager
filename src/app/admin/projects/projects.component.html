@@ -1,0 +1,114 @@
+<h2 class="mx-auto text-center">Projects List</h2>
+<div class="row">
+  <div class="col-12 d-flex justify-content-center">
+    <table>
+      <thead class="text-center">
+        <th class="p-3">Project ID</th>
+        <th class="p-3">Project Name</th>
+        <th class="p-3">Date of Start</th>
+        <th class="p-3">Team Size</th>
+      </thead>
+      <tbody class="text-center">
+        <tr *ngFor="let project of projects">
+          <td>{{ project.projectID }}</td>
+          <td>{{ project.projectName }}</td>
+          <td>{{ project.teamSize }}</td>
+          <td>{{ project.dateOfStart }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center mt-5">
+  <button type="button" class="btn btn-primary" (click)="openModal()">
+    Add New Project
+  </button>
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModalCenter"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label for="txtNewProjectID" class="col-sm-2 col-form-label"
+            >Project ID</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              id="txtNewProjectID"
+              style="width: 90%"
+              class="form-control"
+              placeholder="Project ID"
+              [(ngModel)]="newProject.projectID"
+            />
+          </div>
+          <label for="txtNewProjectName" class="col-sm-2 col-form-label"
+            >Project Name</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              id="txtNewProjectName"
+              style="width: 90%"
+              class="form-control"
+              placeholder="Project Name"
+              [(ngModel)]="newProject.projectName"
+            />
+          </div>
+          <label for="txtNewDateofStart" class="col-sm-2 col-form-label"
+            >Date of start</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="date"
+              id="txtNewDateofStart"
+              style="width: 90%"
+              class="form-control"
+              placeholder="Date of start"
+              [(ngModel)]="newProject.dateOfStart"
+            />
+          </div>
+
+          <label for="txtNewTeamSize" class="col-sm-2 col-form-label"
+            >Team Size</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="number"
+              id="txtNewTeamSize"
+              style="width: 90%"
+              class="form-control"
+              placeholder="Team Size"
+              [(ngModel)]="newProject.teamSize"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="closeFun()"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="onSaveClick()">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
