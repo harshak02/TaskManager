@@ -19,6 +19,11 @@
                 Edit Project
               </button>
           </td>
+          <td class="p-2">
+            <button type="button" class="btn btn-primary" (click)="onDeleteClick($event,i)">
+              Delete Project
+            </button>
+        </td>
         </tr>
       </tbody>
     </table>
@@ -199,6 +204,69 @@
           Close
         </button>
         <button type="button" class="btn btn-primary" (click)="onUpdateClick()">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="newModal1"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+      </div>
+      <div class="modal-body">
+        <div class="text-warning">Are you sure wanted to delete the Project!</div>
+        <div class="form-group row">
+          <label for="txtDeleteProjectID" class="col-sm-2 col-form-label"
+            >Project ID</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              id="txtDeleteProjectID"
+              style="width: 90%"
+              class="form-control-plain-text"
+              placeholder="Project ID"
+              [(ngModel)]="deleteProject.projectID"
+              disabled="disabled"
+            />
+          </div>
+          <label for="txtDeleteProjectName" class="col-sm-2 col-form-label"
+            >Project Name</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              id="txtDeleteProjectName"
+              style="width: 90%"
+              class="form-control"
+              placeholder="Project Name"
+              [(ngModel)]="deleteProject.projectName"
+              disabled="disabled"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="closeFun2()"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="onDeleteConfirmClick()">
           Save changes
         </button>
       </div>
