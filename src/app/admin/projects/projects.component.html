@@ -9,11 +9,16 @@
         <th class="p-3">Team Size</th>
       </thead>
       <tbody class="text-center">
-        <tr *ngFor="let project of projects">
-          <td>{{ project.projectID }}</td>
-          <td>{{ project.projectName }}</td>
-          <td>{{ project.teamSize }}</td>
-          <td>{{ project.dateOfStart }}</td>
+        <tr *ngFor="let project of projects; let i = index">
+          <td class="p-2">{{ project.projectID }}</td>
+          <td class="p-2">{{ project.projectName }}</td>
+          <td class="p-2">{{ project.teamSize }}</td>
+          <td class="p-2">{{ project.dateOfStart }}</td>
+          <td class="p-2">
+              <button type="button" class="btn btn-primary" (click)="onEditClick($event,i)">
+                Edit Project
+              </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -106,6 +111,94 @@
           Close
         </button>
         <button type="button" class="btn btn-primary" (click)="onSaveClick()">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="newModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label for="txtEditProjectID" class="col-sm-2 col-form-label"
+            >Project ID</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              id="txtEditProjectID"
+              style="width: 90%"
+              class="form-control-plain-text"
+              placeholder="Project ID"
+              [(ngModel)]="editProject.projectID"
+              disabled="disabled"
+            />
+          </div>
+          <label for="txtEditProjectName" class="col-sm-2 col-form-label"
+            >Project Name</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              id="txtEditProjectName"
+              style="width: 90%"
+              class="form-control"
+              placeholder="Project Name"
+              [(ngModel)]="editProject.projectName"
+            />
+          </div>
+          <label for="txtEditDateofStart" class="col-sm-2 col-form-label"
+            >Date of start</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="date"
+              id="txtEditDateofStart"
+              style="width: 90%"
+              class="form-control"
+              placeholder="Date of start"
+              [(ngModel)]="editProject.dateOfStart"
+            />
+          </div>
+
+          <label for="txtEditTeamSize" class="col-sm-2 col-form-label"
+            >Team Size</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="number"
+              id="txtEditTeamSize"
+              style="width: 90%"
+              class="form-control"
+              placeholder="Team Size"
+              [(ngModel)]="editProject.teamSize"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="closeFun2()"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="onUpdateClick()">
           Save changes
         </button>
       </div>
