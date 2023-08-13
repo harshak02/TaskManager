@@ -22,6 +22,8 @@ export class ProjectsComponent {
   editIndex : any = null;
   deleteProject : Project = new Project();
   deleteIndex : any = null;
+  searchBy : string = "ProjectName";
+  searchText : string = "";
 
   ngOnInit() {
     this.projectsService.getAllProjects().subscribe(
@@ -113,6 +115,17 @@ export class ProjectsComponent {
     },(error:any)=>{
       console.log(error);
     })
+  }
+
+  onSearchClick(){
+    this.projectsService.SearchProjects(this.searchBy,this.searchText).subscribe(
+      (response : Project[]) => {
+        this.projects = response;//we can resue this 
+
+      }, (error : any) => {
+        console.log(error);
+      }
+    )
   }
 
 }

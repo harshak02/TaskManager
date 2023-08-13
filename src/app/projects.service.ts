@@ -28,4 +28,8 @@ export class ProjectsService {
     return this.httpClient.delete<string>("http://localhost:9090/api/projects?ProjectID="+ProjectID);
   }
 
+  SearchProjects(searchBy : string,searchText : string) : Observable<Project[]> | any {
+    return this.httpClient.get<Project[]>("http://localhost:9090/api/projects/search/"+searchBy+"/"+searchText,{responseType : "json"});
+  }
+
 }
